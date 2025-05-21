@@ -3,6 +3,7 @@ package guru.qa.niffler.page;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import guru.qa.niffler.jupiter.extension.ScreenShotTestExtension;
 import guru.qa.niffler.utils.ScreenDiffResult;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,7 @@ import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class ProfilePage {
@@ -76,13 +78,17 @@ public class ProfilePage {
 
   public ProfilePage checkPhoto(BufferedImage expected) throws IOException {
     Selenide.sleep(3000);
-    BufferedImage actualImage = ImageIO.read(Objects.requireNonNull(avatar.screenshot()));
     assertFalse(
         new ScreenDiffResult(
-            actualImage, expected
-        )
+            avatarScreenshot(), expected
+        ),
+        ScreenShotTestExtension.ASSERT_SCREEN_MESSAGE
     );
     return this;
+  }
+
+  public BufferedImage avatarScreenshot() throws IOException {
+    return ImageIO.read(requireNonNull(avatar.screenshot()));
   }
 
   public ProfilePage checkThatCategoryInputDisabled() {
