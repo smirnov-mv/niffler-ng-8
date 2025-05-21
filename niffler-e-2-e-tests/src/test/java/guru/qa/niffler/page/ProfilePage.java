@@ -1,7 +1,14 @@
 package guru.qa.niffler.page;
 
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import guru.qa.niffler.utils.ScreenDiffResult;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 import static com.codeborne.selenide.Condition.attributeMatching;
 import static com.codeborne.selenide.Condition.disabled;
@@ -10,6 +17,7 @@ import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class ProfilePage {
 
@@ -63,6 +71,17 @@ public class ProfilePage {
 
   public ProfilePage checkPhotoExist() {
     avatar.should(attributeMatching("src", "data:image.*"));
+    return this;
+  }
+
+  public ProfilePage checkPhoto(BufferedImage expected) throws IOException {
+    Selenide.sleep(3000);
+    BufferedImage actualImage = ImageIO.read(Objects.requireNonNull(avatar.screenshot()));
+    assertFalse(
+        new ScreenDiffResult(
+            actualImage, expected
+        )
+    );
     return this;
   }
 

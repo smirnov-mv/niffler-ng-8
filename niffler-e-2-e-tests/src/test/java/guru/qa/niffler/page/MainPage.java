@@ -2,6 +2,7 @@ package guru.qa.niffler.page;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import guru.qa.niffler.page.component.StatComponent;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -12,8 +13,13 @@ public class MainPage {
   private final SelenideElement header = $("#root header");
   private final SelenideElement headerMenu = $("ul[role='menu']");
   private final ElementsCollection tableRows = $("#spendings tbody").$$("tr");
-  private final SelenideElement statComponent = $("#stat");
   private final SelenideElement spendingTable = $("#spendings");
+
+  private final StatComponent statComponent = new StatComponent();
+
+  public StatComponent getStatComponent() {
+    return statComponent;
+  }
 
   public FriendsPage friendsPage() {
     header.$("button").click();
@@ -37,7 +43,7 @@ public class MainPage {
   }
 
   public MainPage checkThatPageLoaded() {
-    statComponent.should(visible).shouldHave(text("Statistics"));
+    statComponent.self.should(visible).shouldHave(text("Statistics"));
     spendingTable.should(visible).shouldHave(text("History of Spendings"));
     return this;
   }

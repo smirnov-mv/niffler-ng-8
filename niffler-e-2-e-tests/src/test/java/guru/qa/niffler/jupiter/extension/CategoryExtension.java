@@ -6,7 +6,6 @@ import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.model.UserJson;
 import guru.qa.niffler.service.SpendClient;
 import guru.qa.niffler.service.SpendDbClient;
-import guru.qa.niffler.utils.RandomDataUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -16,11 +15,13 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.platform.commons.support.AnnotationSupport;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-public class CategoryExtension implements
-    BeforeEachCallback,
-    ParameterResolver {
+import static guru.qa.niffler.utils.RandomDataUtils.randomCategoryName;
+
+public class CategoryExtension implements BeforeEachCallback, ParameterResolver {
 
   public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(CategoryExtension.class);
 
@@ -31,22 +32,18 @@ public class CategoryExtension implements
     AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), User.class)
         .ifPresent(userAnno -> {
           if (ArrayUtils.isNotEmpty(userAnno.categories())) {
-            UserJson createdUser = UserExtension.createdUser();
-            final String username = createdUser != null
-                ? createdUser.username()
-                : userAnno.username();
+            final UserJson user = UserExtension.createdUser();
 
+            final String username = user != null
+                ? user.username()
+                : userAnno.username();
 
             final List<CategoryJson> createdCategories = new ArrayList<>();
 
             for (Category categoryAnno : userAnno.categories()) {
-              final String categoryName = "".equals(categoryAnno.name())
-                  ? RandomDataUtils.randomCategoryName()
-                  : categoryAnno.name();
-
               CategoryJson category = new CategoryJson(
                   null,
-                  categoryName,
+                  "".equals(categoryAnno.name()) ? randomCategoryName() : categoryAnno.name(),
                   username,
                   categoryAnno.archived()
               );
@@ -54,9 +51,8 @@ public class CategoryExtension implements
                   spendClient.createCategory(category)
               );
             }
-
-            if (createdUser != null) {
-              createdUser.testData().categories().addAll(
+            if (user != null) {
+              user.testData().categories().addAll(
                   createdCategories
               );
             } else {
@@ -75,11 +71,13 @@ public class CategoryExtension implements
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public CategoryJson[] resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return (CategoryJson[]) extensionContext.getStore(NAMESPACE)
-        .get(extensionContext.getUniqueId(), List.class)
-        .stream()
-        .toArray(CategoryJson[]::new);
+    return createdCategories(extensionContext).toArray(CategoryJson[]::new);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static List<CategoryJson> createdCategories(ExtensionContext extensionContext) {
+    return Optional.ofNullable(extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), List.class))
+        .orElse(Collections.emptyList());
   }
 }
