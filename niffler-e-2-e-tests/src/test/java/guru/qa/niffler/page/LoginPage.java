@@ -19,11 +19,11 @@ public class LoginPage {
   public MainPage doLogin(String username, String password) {
     setUserName(username);
     setPassword(password);
-    btnLogInClick();
+    clickOnLogInButton();
     return new MainPage();
   }
 
-  public LoginPage btnLogInClick() {
+  public LoginPage clickOnLogInButton() {
     submitBtn.click();
     return this;
   }

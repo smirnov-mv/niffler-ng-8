@@ -1,8 +1,8 @@
 package guru.qa.niffler.jupiter;
 
-import com.github.javafaker.Faker;
 import guru.qa.niffler.api.SpendApiClient;
 import guru.qa.niffler.model.CategoryJson;
+import guru.qa.niffler.util.DataUtils;
 import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
 import org.slf4j.Logger;
@@ -15,7 +15,6 @@ public class CategoryExtension implements ParameterResolver, BeforeEachCallback,
   private static final Logger LOGGER = getLogger(CategoryExtension.class);
 
   public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(CategoryExtension.class);
-  private final Faker faker = new Faker(Locale.of("ru"));
   private final SpendApiClient spendApiClient = new SpendApiClient();
 
   @Override
@@ -24,9 +23,9 @@ public class CategoryExtension implements ParameterResolver, BeforeEachCallback,
         .ifPresent(anno -> {
           CategoryJson category = new CategoryJson(
               null,
-              faker.harryPotter().spell() + System.currentTimeMillis(),
+              DataUtils.randomCategoryName(),
               anno.username(),
-              anno.archived());
+              false);
 
           LOGGER.info("Creating category with json {}", category);
           CategoryJson created = spendApiClient.addCategory(category);

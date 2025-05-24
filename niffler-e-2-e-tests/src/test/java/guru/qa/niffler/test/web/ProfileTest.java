@@ -25,7 +25,7 @@ public class ProfileTest {
 
     Selenide.open(ProfilePage.URL, ProfilePage.class)
         .enableSwitchShowArchived()
-        .categoryShouldBeArchived(category.name());
+        .shouldBeArchivedCategory(category.name());
   }
 
   @Category(
@@ -39,6 +39,6 @@ public class ProfileTest {
 
     Selenide.open(ProfilePage.URL, ProfilePage.class)
         .enableSwitchShowArchived()
-        .categoryShouldBeActive(category.name());
+        .shouldBeActiveCategory(category.name());
   }
 }

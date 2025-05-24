@@ -20,12 +20,12 @@ public class ProfilePage {
     return this;
   }
 
-  public ProfilePage categoryShouldBeActive(String categoryName) {
+  public ProfilePage shouldBeActiveCategory(String categoryName) {
     categories.findBy(Condition.text(categoryName)).closest(".MuiButtonBase-root").shouldHave(Condition.cssClass("MuiChip-colorPrimary"));
     return this;
   }
 
-  public ProfilePage categoryShouldBeArchived(String categoryName) {
+  public ProfilePage shouldBeArchivedCategory(String categoryName) {
     categoryChips(categoryName).shouldHave(Condition.cssClass("MuiChip-colorDefault"));
     return this;
   }

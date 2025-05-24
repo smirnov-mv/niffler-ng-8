@@ -22,7 +22,7 @@ public class LoginTest {
     Selenide.open(LoginPage.URL, LoginPage.class)
         .setUserName("111")
         .setPassword("222")
-        .btnLogInClick()
+        .clickOnLogInButton()
         .shouldBeVisibleLoginErrorContainer()
         .shouldHaveErrorUrl();
   }
