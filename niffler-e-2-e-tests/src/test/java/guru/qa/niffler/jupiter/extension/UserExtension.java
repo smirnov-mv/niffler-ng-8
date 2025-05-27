@@ -13,7 +13,9 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.platform.commons.support.AnnotationSupport;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+@ParametersAreNonnullByDefault
 public class UserExtension implements
     BeforeEachCallback,
     ParameterResolver {
@@ -55,7 +57,8 @@ public class UserExtension implements
     return createdUser();
   }
 
-  public static @Nullable UserJson createdUser() {
+  @Nullable
+  public static UserJson createdUser() {
     final ExtensionContext context = TestsMethodContextExtension.context();
     return context.getStore(NAMESPACE).get(context.getUniqueId(), UserJson.class);
   }
