@@ -15,11 +15,14 @@ import guru.qa.niffler.model.UserJson;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 
 import static guru.qa.niffler.utils.RandomDataUtils.randomUsername;
+import static java.util.Objects.requireNonNull;
 
-
+@ParametersAreNonnullByDefault
 public class UsersDbClient implements UsersClient {
 
   private static final Config CFG = Config.getInstance();
@@ -33,13 +36,14 @@ public class UsersDbClient implements UsersClient {
       CFG.userdataJdbcUrl()
   );
 
+  @Nonnull
   @Override
   public UserJson createUser(String username, String password) {
-    return xaTransactionTemplate.execute(() -> UserJson.fromEntity(
+    return requireNonNull(xaTransactionTemplate.execute(() -> UserJson.fromEntity(
             createNewUser(username, password),
             null
         )
-    );
+    ));
   }
 
   @Override
