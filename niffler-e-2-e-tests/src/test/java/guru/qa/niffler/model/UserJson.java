@@ -7,6 +7,7 @@ import guru.qa.niffler.data.entity.userdata.UserEntity;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -46,6 +47,9 @@ public record UserJson(
         new TestData(
             null,
             new ArrayList<>(),
+            new ArrayList<>(),
+            new ArrayList<>(),
+            new ArrayList<>(),
             new ArrayList<>()
         )
     );
@@ -56,7 +60,25 @@ public record UserJson(
         new TestData(
             password,
             testData.categories(),
-            testData.spendings()
+            testData.spendings(),
+            testData.friends(),
+            testData.outcomeInvitations(),
+            testData.incomeInvitations()
+        )
+    );
+  }
+
+  public UserJson withUsers(List<UserJson> friends,
+                            List<UserJson> outcomeInvitations,
+                            List<UserJson> incomeInvitations) {
+    return withTestData(
+        new TestData(
+            testData.password(),
+            testData.categories(),
+            testData.spendings(),
+            friends,
+            outcomeInvitations,
+            incomeInvitations
         )
     );
   }

@@ -6,6 +6,7 @@ import guru.qa.niffler.service.impl.UsersDbClient;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
 @ParametersAreNonnullByDefault
 public interface UsersClient {
@@ -19,9 +20,9 @@ public interface UsersClient {
   @Nonnull
   UserJson createUser(String username, String password);
 
-  void addIncomeInvitation(UserJson targetUser, int count);
+  List<UserJson> addIncomeInvitation(UserJson targetUser, int count);
 
-  void addOutcomeInvitation(UserJson targetUser, int count);
+  List<UserJson> addOutcomeInvitation(UserJson targetUser, int count);
 
-  void addFriend(UserJson targetUser, int count);
+  List<UserJson> addFriend(UserJson targetUser, int count);
 }

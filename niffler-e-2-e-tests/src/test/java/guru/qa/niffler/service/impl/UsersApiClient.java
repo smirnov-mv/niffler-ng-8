@@ -5,27 +5,28 @@ import guru.qa.niffler.service.UsersClient;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
 @ParametersAreNonnullByDefault
 public class UsersApiClient implements UsersClient {
   @Nonnull
   @Override
   public UserJson createUser(String username, String password) {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
-  public void addIncomeInvitation(UserJson targetUser, int count) {
-
+  public List<UserJson> addIncomeInvitation(UserJson targetUser, int count) {
+    throw new UnsupportedOperationException();
   }
 
   @Override
-  public void addOutcomeInvitation(UserJson targetUser, int count) {
-
+  public List<UserJson> addOutcomeInvitation(UserJson targetUser, int count) {
+    throw new UnsupportedOperationException();
   }
 
   @Override
-  public void addFriend(UserJson targetUser, int count) {
-
+  public List<UserJson> addFriend(UserJson targetUser, int count) {
+    throw new UnsupportedOperationException();
   }
 }

@@ -13,6 +13,8 @@ import org.junit.platform.commons.support.AnnotationSupport;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.List;
 
 @ParametersAreNonnullByDefault
 public class UserExtension implements
@@ -36,10 +38,28 @@ public class UserExtension implements
                 defaultPassword
             );
 
+            List<UserJson> friends = new ArrayList<>();
+            List<UserJson> income = new ArrayList<>();
+            List<UserJson> outcome = new ArrayList<>();
+
+            if (userAnno.friends() > 0) {
+              friends = usersClient.addFriend(user, userAnno.friends());
+            }
+            if (userAnno.incomeInvitations() > 0) {
+              income = usersClient.addIncomeInvitation(user, userAnno.incomeInvitations());
+            }
+            if (userAnno.outcomeInvitations() > 0) {
+              outcome = usersClient.addOutcomeInvitation(user, userAnno.outcomeInvitations());
+            }
+
             context.getStore(NAMESPACE).put(
                 context.getUniqueId(),
                 user.withPassword(
                     defaultPassword
+                ).withUsers(
+                    friends,
+                    outcome,
+                    income
                 )
             );
           }
