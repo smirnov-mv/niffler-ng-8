@@ -1,7 +1,8 @@
 package guru.qa.niffler.jupiter.extension;
 
-import guru.qa.niffler.api.GhApiClient;
 import guru.qa.niffler.jupiter.annotation.DisabledByIssue;
+import guru.qa.niffler.service.GithubClient;
+import guru.qa.niffler.service.impl.GithubApiClient;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;
 import org.junit.jupiter.api.extension.ExecutionCondition;
@@ -15,7 +16,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class IssueExtension implements ExecutionCondition {
 
-  private final GhApiClient ghApiClient = new GhApiClient();
+  private final GithubClient ghApiClient = new GithubApiClient();
 
   @SneakyThrows
   @Nonnull
