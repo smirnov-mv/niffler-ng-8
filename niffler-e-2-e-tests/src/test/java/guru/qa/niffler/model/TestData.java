@@ -4,6 +4,7 @@ import guru.qa.niffler.model.rest.CategoryJson;
 import guru.qa.niffler.model.rest.SpendJson;
 import guru.qa.niffler.model.rest.UserJson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record TestData(String password,
@@ -12,6 +13,10 @@ public record TestData(String password,
                        List<UserJson> friends,
                        List<UserJson> outcomeInvitations,
                        List<UserJson> incomeInvitations) {
+
+  public TestData (String password){
+    this(password, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+  }
 
   public List<String> friendsUsernames() {
     return extractUsernames(friends);

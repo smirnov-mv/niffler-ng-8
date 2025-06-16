@@ -16,6 +16,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
+import static guru.qa.niffler.jupiter.extension.TestsMethodContextExtension.context;
+
 @ParametersAreNonnullByDefault
 public class UserExtension implements
     BeforeEachCallback,
@@ -52,8 +54,7 @@ public class UserExtension implements
               outcome = usersClient.addOutcomeInvitation(user, userAnno.outcomeInvitations());
             }
 
-            context.getStore(NAMESPACE).put(
-                context.getUniqueId(),
+            setUser(
                 user.withPassword(
                     defaultPassword
                 ).withUsers(
@@ -78,7 +79,16 @@ public class UserExtension implements
 
   @Nullable
   public static UserJson createdUser() {
-    final ExtensionContext context = TestsMethodContextExtension.context();
+    final ExtensionContext context = context();
     return context.getStore(NAMESPACE).get(context.getUniqueId(), UserJson.class);
+  }
+
+
+  public static void setUser(UserJson testUser) {
+    final ExtensionContext context = context();
+    context.getStore(NAMESPACE).put(
+        context.getUniqueId(),
+        testUser
+    );
   }
 }
