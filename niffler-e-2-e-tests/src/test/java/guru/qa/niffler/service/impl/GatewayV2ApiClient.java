@@ -9,13 +9,11 @@ import retrofit2.Response;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ParametersAreNonnullByDefault
 public class GatewayV2ApiClient extends RestClient {
 
   private final GatewayV2Api gatewayApi;
@@ -25,15 +23,20 @@ public class GatewayV2ApiClient extends RestClient {
     this.gatewayApi = create(GatewayV2Api.class);
   }
 
-  @Step("Get all friends & income invitations using /api/v2/friends/all endpoint")
+  @Step("Send GET request /api/v2/friends/all to niffler-gateway")
   @Nonnull
   public RestResponsePage<UserJson> allFriends(String bearerToken,
                                                int page,
                                                int size,
+                                               @Nullable String sort,
                                                @Nullable String searchQuery) {
     final Response<RestResponsePage<UserJson>> response;
     try {
-      response = gatewayApi.allFriends(bearerToken, page, size, searchQuery)
+      response = gatewayApi.allFriends(bearerToken,
+              page,
+              size,
+              sort,
+              searchQuery)
           .execute();
     } catch (IOException e) {
       throw new AssertionError(e);
