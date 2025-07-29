@@ -1,4 +1,3 @@
-
 package guru.qa.niffler.utils;
 
 import javax.annotation.Nonnull;

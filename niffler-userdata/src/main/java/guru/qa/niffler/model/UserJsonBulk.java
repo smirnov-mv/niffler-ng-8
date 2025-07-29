@@ -2,11 +2,11 @@ package guru.qa.niffler.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import guru.qa.jaxb.userdata.Currency;
+import guru.qa.jaxb.userdata.User;
 import guru.qa.niffler.data.CurrencyValues;
 import guru.qa.niffler.data.projection.UserWithStatus;
 import jakarta.annotation.Nonnull;
-import guru.qa.jaxb.userdata.Currency;
-import guru.qa.jaxb.userdata.User;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
