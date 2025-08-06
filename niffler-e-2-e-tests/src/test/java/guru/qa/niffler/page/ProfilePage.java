@@ -1,18 +1,13 @@
 package guru.qa.niffler.page;
 
 import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import guru.qa.niffler.jupiter.extension.ScreenShotTestExtension;
-import guru.qa.niffler.utils.ScreenDiffResult;
 import io.qameta.allure.Step;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Objects;
 
 import static com.codeborne.selenide.Condition.attributeMatching;
 import static com.codeborne.selenide.Condition.disabled;
@@ -21,7 +16,7 @@ import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static guru.qa.niffler.condition.ScreenshotConditions.image;
 
 @ParametersAreNonnullByDefault
 public class ProfilePage extends BasePage<ProfilePage> {
@@ -93,14 +88,7 @@ public class ProfilePage extends BasePage<ProfilePage> {
   @Step("Check photo")
   @Nonnull
   public ProfilePage checkPhoto(BufferedImage expected) throws IOException {
-    Selenide.sleep(1000);
-    BufferedImage actualImage = ImageIO.read(Objects.requireNonNull(avatar.screenshot()));
-    assertFalse(
-        new ScreenDiffResult(
-            actualImage, expected
-        ),
-        ScreenShotTestExtension.ASSERT_SCREEN_MESSAGE
-    );
+    avatar.shouldHave(image(expected));
     return this;
   }
 

@@ -5,11 +5,13 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.time.Month;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Selenide.$;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.MONTH;
@@ -93,13 +95,19 @@ public class Calendar extends BaseComponent<Calendar> {
   }
 
   private int getActualMonthIndex() {
-    return Month.valueOf(currentMonthAndYear.getText()
-            .split(" ")[0]
+    return Month.valueOf(splitActualDateFromCalendar()[0]
             .toUpperCase())
         .ordinal();
   }
 
   private int getActualYear() {
-    return Integer.parseInt(currentMonthAndYear.getText().split(" ")[1]);
+    return Integer.parseInt(splitActualDateFromCalendar()[1]);
+  }
+
+  @Nonnull
+  private String[] splitActualDateFromCalendar() {
+    return currentMonthAndYear.should(matchText(".*\\d{4}"))
+        .getText()
+        .split(" ");
   }
 }

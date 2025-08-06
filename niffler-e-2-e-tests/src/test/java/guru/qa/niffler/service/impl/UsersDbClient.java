@@ -66,8 +66,8 @@ public class UsersDbClient implements UsersClient {
       for (int i = 0; i < count; i++) {
         xaTransactionTemplate.execute(() -> {
               final String username = randomUsername();
-          UserEntity income = createNewUser(username, "12345");
-          result.add(UserJson.fromEntity(income, FriendshipStatus.INVITE_RECEIVED));
+              UserEntity income = createNewUser(username, "12345");
+              result.add(UserJson.fromEntity(income, FriendshipStatus.INVITE_RECEIVED));
               userdataUserRepository.addFriendshipRequest(
                   income,
                   targetEntity
@@ -92,12 +92,12 @@ public class UsersDbClient implements UsersClient {
       for (int i = 0; i < count; i++) {
         xaTransactionTemplate.execute(() -> {
               String username = randomUsername();
-          UserEntity outcome = createNewUser(username, "12345");
-          result.add(UserJson.fromEntity(outcome, FriendshipStatus.INVITE_SENT));
-          userdataUserRepository.addFriendshipRequest(
-              targetEntity,
-              outcome
-          );
+              UserEntity outcome = createNewUser(username, "12345");
+              result.add(UserJson.fromEntity(outcome, FriendshipStatus.INVITE_SENT));
+              userdataUserRepository.addFriendshipRequest(
+                  targetEntity,
+                  outcome
+              );
               return null;
             }
         );
@@ -118,8 +118,8 @@ public class UsersDbClient implements UsersClient {
       for (int i = 0; i < count; i++) {
         xaTransactionTemplate.execute(() -> {
               String username = randomUsername();
-          UserEntity friend = createNewUser(username, "12345");
-          result.add(UserJson.fromEntity(friend, FriendshipStatus.FRIEND));
+              UserEntity friend = createNewUser(username, "12345");
+              result.add(UserJson.fromEntity(friend, FriendshipStatus.FRIEND));
               userdataUserRepository.addFriend(
                   targetEntity,
                   friend

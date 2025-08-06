@@ -14,7 +14,7 @@ public record TestData(String password,
                        List<UserJson> outcomeInvitations,
                        List<UserJson> incomeInvitations) {
 
-  public TestData (String password){
+  public TestData(String password) {
     this(password, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
   }
 

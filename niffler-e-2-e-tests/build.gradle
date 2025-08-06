@@ -1,10 +1,10 @@
 buildscript {
     ext {
-        junitVersion = '5.13.0'
+        junitVersion = '5.13.4'
         allureVersion = '2.29.0'
-        selenideVersion = '7.9.3'
-        okhttp3Version = '4.12.0'
-        retrofitVersion = '2.11.0'
+        selenideVersion = '7.9.4'
+        okhttp3Version = '5.1.0'
+        retrofitVersion = '3.0.0'
         apollographqlVersion = '0.0.2'
         logbackVersion = '1.4.11'
         slf4jVersion = '2.0.9'
@@ -33,7 +33,7 @@ plugins {
     id 'io.qameta.allure' version '2.12.0'
     id 'io.qameta.allure-adapter' version '2.12.0'
     id 'com.github.edeandrea.xjc-generation' version '1.6'
-    id 'com.apollographql.apollo' version '4.1.1'
+    id 'com.apollographql.apollo' version '4.3.2'
 }
 
 group = 'guru.qa'
@@ -128,14 +128,14 @@ dependencies {
     testImplementation("com.github.javafaker:javafaker:${fakerVersion}") {
         exclude group: 'org.yaml'
     }
-    testImplementation 'commons-io:commons-io:2.16.1'
+    testImplementation 'commons-io:commons-io:2.20.0'
     testImplementation 'com.google.code.findbugs:jsr305:3.0.2'
     testImplementation 'com.github.vertical-blank:sql-formatter:2.0.5'
-    testImplementation 'com.github.h-thurow:simple-jndi:0.24.0'
+    testImplementation 'com.github.h-thurow:simple-jndi:0.25.0'
     // GraphQL
     testImplementation "com.apollographql.java:client:${apollographqlVersion}"
     testImplementation "com.apollographql.java:rx2:${apollographqlVersion}"
-    testImplementation 'com.apollographql.adapters:apollo-adapters-core:0.0.4'
+    testImplementation 'com.apollographql.adapters:apollo-adapters-core:0.7.0'
     // gRPC
     testImplementation "io.grpc:grpc-api:${project.ext.grpcVersion}"
     testImplementation "io.grpc:grpc-stub:${project.ext.grpcVersion}"
