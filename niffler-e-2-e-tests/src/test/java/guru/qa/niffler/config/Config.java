@@ -5,7 +5,9 @@ import javax.annotation.Nonnull;
 public interface Config {
 
   static Config getInstance() {
-    return LocalConfig.instance;
+    return "docker".equals(System.getProperty("test.env"))
+        ? DockerConfig.instance
+        : LocalConfig.instance;
   }
 
   @Nonnull
@@ -39,6 +41,9 @@ public interface Config {
   default String ghUrl() {
     return "https://api.github.com/";
   }
+
+  @Nonnull
+  String screenshotBaseDir();
 
   @Nonnull
   String currencyGrpcAddress();

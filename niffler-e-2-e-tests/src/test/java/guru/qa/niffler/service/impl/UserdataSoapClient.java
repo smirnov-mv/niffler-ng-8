@@ -1,15 +1,17 @@
 package guru.qa.niffler.service.impl;
 
 import guru.qa.jaxb.userdata.CurrentUserRequest;
+import guru.qa.jaxb.userdata.FriendsPageRequest;
 import guru.qa.jaxb.userdata.UserResponse;
+import guru.qa.jaxb.userdata.UsersResponse;
 import guru.qa.niffler.api.UserdataSoapApi;
 import guru.qa.niffler.api.core.RestClient;
 import guru.qa.niffler.api.core.converter.SoapConverterFactory;
 import guru.qa.niffler.config.Config;
 import io.qameta.allure.Step;
 import okhttp3.logging.HttpLoggingInterceptor;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 
@@ -24,9 +26,15 @@ public class UserdataSoapClient extends RestClient {
     this.userdataSoapApi = create(UserdataSoapApi.class);
   }
 
-  @NotNull
+  @Nonnull
   @Step("Get current user info using SOAP")
   public UserResponse currentUser(CurrentUserRequest request) throws IOException {
     return userdataSoapApi.currentUser(request).execute().body();
+  }
+
+  @Nonnull
+  @Step("Get all friends page using SOAP")
+  public UsersResponse friendsPageable(FriendsPageRequest request) throws IOException {
+    return userdataSoapApi.friendsPageable(request).execute().body();
   }
 }
