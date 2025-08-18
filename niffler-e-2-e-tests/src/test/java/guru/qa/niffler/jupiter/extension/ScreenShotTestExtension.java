@@ -1,6 +1,7 @@
 package guru.qa.niffler.jupiter.extension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.annotation.ScreenShotTest;
 import guru.qa.niffler.model.allure.ScreenDif;
 import io.qameta.allure.Allure;
@@ -13,8 +14,6 @@ import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
 import org.junit.platform.commons.support.AnnotationSupport;
 import org.springframework.core.io.ClassPathResource;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -23,8 +22,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 
+import static guru.qa.niffler.jupiter.extension.TestsMethodContextExtension.context;
+
 @ParametersAreNonnullByDefault
 public class ScreenShotTestExtension implements ParameterResolver, TestExecutionExceptionHandler {
+
+  private static final Config CFG = Config.getInstance();
 
   public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(ScreenShotTestExtension.class);
   public static final String ASSERT_SCREEN_MESSAGE = "Screen comparison failure";
@@ -39,13 +42,12 @@ public class ScreenShotTestExtension implements ParameterResolver, TestExecution
   }
 
   @SneakyThrows
-  @Nonnull
   @Override
   public BufferedImage resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
     final ScreenShotTest screenShotTest = extensionContext.getRequiredTestMethod().getAnnotation(ScreenShotTest.class);
     return ImageIO.read(
         new ClassPathResource(
-            screenShotTest.value()
+            CFG.screenshotBaseDir() + screenShotTest.expected()
         ).getInputStream()
     );
   }
@@ -60,7 +62,7 @@ public class ScreenShotTestExtension implements ParameterResolver, TestExecution
           ImageIO.write(
               actual,
               "png",
-              new File("src/test/resources/" + screenShotTest.value())
+              new File(".screen-output/" + CFG.screenshotBaseDir() + screenShotTest.expected())
           );
         }
       }
@@ -83,28 +85,27 @@ public class ScreenShotTestExtension implements ParameterResolver, TestExecution
   }
 
   public static void setExpected(BufferedImage expected) {
-    TestsMethodContextExtension.context().getStore(NAMESPACE).put("expected", expected);
+    context().getStore(NAMESPACE).put("expected", expected);
   }
 
   public static BufferedImage getExpected() {
-    return TestsMethodContextExtension.context().getStore(NAMESPACE).get("expected", BufferedImage.class);
+    return context().getStore(NAMESPACE).get("expected", BufferedImage.class);
   }
 
   public static void setActual(BufferedImage actual) {
-    TestsMethodContextExtension.context().getStore(NAMESPACE).put("actual", actual);
+    context().getStore(NAMESPACE).put("actual", actual);
   }
 
-  @Nullable
   public static BufferedImage getActual() {
-    return TestsMethodContextExtension.context().getStore(NAMESPACE).get("actual", BufferedImage.class);
+    return context().getStore(NAMESPACE).get("actual", BufferedImage.class);
   }
 
   public static void setDiff(BufferedImage diff) {
-    TestsMethodContextExtension.context().getStore(NAMESPACE).put("diff", diff);
+    context().getStore(NAMESPACE).put("diff", diff);
   }
 
   public static BufferedImage getDiff() {
-    return TestsMethodContextExtension.context().getStore(NAMESPACE).get("diff", BufferedImage.class);
+    return context().getStore(NAMESPACE).get("diff", BufferedImage.class);
   }
 
   private static byte[] imageToBytes(BufferedImage image) {
