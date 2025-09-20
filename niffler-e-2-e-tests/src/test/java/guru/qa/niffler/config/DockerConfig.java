@@ -85,4 +85,10 @@ enum DockerConfig implements Config {
         ? allureDockerApiFromEnv
         : "http://allure:5050/";
   }
+
+  @Nonnull
+  @Override
+  public String kafkaAddress() {
+    return "kafka:9092";
+  }
 }
