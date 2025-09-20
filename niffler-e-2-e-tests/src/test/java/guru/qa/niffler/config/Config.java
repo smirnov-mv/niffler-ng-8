@@ -10,6 +10,8 @@ public interface Config {
         : LocalConfig.instance;
   }
 
+  String projectId = "niffler-ng-8";
+
   @Nonnull
   String frontUrl();
 
@@ -58,4 +60,7 @@ public interface Config {
   default int userdataGrpcPort() {
     return 8088;
   }
+
+  @Nonnull
+  String allureDockerUrl();
 }

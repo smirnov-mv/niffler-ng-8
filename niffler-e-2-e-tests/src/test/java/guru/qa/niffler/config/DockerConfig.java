@@ -76,4 +76,13 @@ enum DockerConfig implements Config {
   public String userdataGrpcAddress() {
     return "userdata.niffler.dc";
   }
+
+  @Nonnull
+  @Override
+  public String allureDockerUrl() {
+    final String allureDockerApiFromEnv = System.getenv("ALLURE_DOCKER_API");
+    return allureDockerApiFromEnv != null
+        ? allureDockerApiFromEnv
+        : "http://allure:5050/";
+  }
 }
