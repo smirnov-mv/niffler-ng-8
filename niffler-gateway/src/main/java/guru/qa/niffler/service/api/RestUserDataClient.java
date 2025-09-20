@@ -60,6 +60,7 @@ public class RestUserDataClient implements UserDataClient {
     ).orElseThrow(() -> new NoRestResponseException("No REST UserJson response is given [/users/update/ Route]"));
   }
 
+  @Deprecated
   @Nonnull
   @Override
   public List<UserJson> allUsers(@Nonnull String username, @Nullable String searchQuery) {
@@ -93,6 +94,7 @@ public class RestUserDataClient implements UserDataClient {
         .orElseThrow(() -> new NoRestResponseException("No REST Page<UserJson> response is given [/v2/users/all/ Route]"));
   }
 
+  @Deprecated
   @Nonnull
   @Override
   public List<UserJson> friends(@Nonnull String username, @Nullable String searchQuery) {

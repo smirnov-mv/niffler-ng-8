@@ -132,6 +132,22 @@ public class UsersDbClient implements UsersClient {
     return result;
   }
 
+  @Override
+  public List<UserJson> addOtherPeople(int count) {
+    final List<UserJson> result = new ArrayList<>();
+    if (count > 0) {
+      for (int i = 0; i < count; i++) {
+        xaTransactionTemplate.execute(() -> {
+              UserEntity friend = createNewUser(randomUsername(), "12345");
+              result.add(UserJson.fromEntity(friend, null));
+              return null;
+            }
+        );
+      }
+    }
+    return result;
+  }
+
   @Nonnull
   private UserEntity createNewUser(String username, String password) {
     AuthUserEntity authUser = authUserEntity(username, password);

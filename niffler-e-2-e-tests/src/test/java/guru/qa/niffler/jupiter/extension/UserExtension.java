@@ -40,10 +40,14 @@ public class UserExtension implements
                 defaultPassword
             );
 
+            List<UserJson> other = new ArrayList<>();
             List<UserJson> friends = new ArrayList<>();
             List<UserJson> income = new ArrayList<>();
             List<UserJson> outcome = new ArrayList<>();
 
+            if (userAnno.other() > 0) {
+              other = usersClient.addOtherPeople(userAnno.other());
+            }
             if (userAnno.friends() > 0) {
               friends = usersClient.addFriend(user, userAnno.friends());
             }
@@ -58,6 +62,7 @@ public class UserExtension implements
                 user.withPassword(
                     defaultPassword
                 ).withUsers(
+                    other,
                     friends,
                     outcome,
                     income
@@ -82,7 +87,6 @@ public class UserExtension implements
     final ExtensionContext context = context();
     return context.getStore(NAMESPACE).get(context.getUniqueId(), UserJson.class);
   }
-
 
   public static void setUser(UserJson testUser) {
     final ExtensionContext context = context();
