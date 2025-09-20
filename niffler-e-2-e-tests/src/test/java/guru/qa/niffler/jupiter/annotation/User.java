@@ -14,6 +14,8 @@ public @interface User {
 
   Spend[] spendings() default {};
 
+  int other() default 0;
+
   int friends() default 0;
 
   int outcomeInvitations() default 0;

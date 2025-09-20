@@ -17,10 +17,13 @@ import org.junit.platform.commons.support.AnnotationSupport;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import static guru.qa.niffler.utils.DateUtils.addDaysToDate;
 
 @ParametersAreNonnullByDefault
 public class SpendingExtension implements BeforeEachCallback, ParameterResolver {
@@ -52,7 +55,7 @@ public class SpendingExtension implements BeforeEachCallback, ParameterResolver 
 
               SpendJson spend = new SpendJson(
                   null,
-                  new Date(),
+                  addDaysToDate(new Date(), Calendar.DAY_OF_WEEK, spendAnno.addDaysToSpendDate()),
                   matchedCategory.orElseGet(() -> new CategoryJson(
                       null,
                       spendAnno.category(),

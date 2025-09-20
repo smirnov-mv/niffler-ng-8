@@ -25,4 +25,6 @@ public interface UsersClient {
   List<UserJson> addOutcomeInvitation(UserJson targetUser, int count);
 
   List<UserJson> addFriend(UserJson targetUser, int count);
+
+  List<UserJson> addOtherPeople(int count);
 }

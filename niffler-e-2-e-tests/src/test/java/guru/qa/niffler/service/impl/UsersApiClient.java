@@ -130,4 +130,16 @@ public class UsersApiClient implements UsersClient {
     }
     return result;
   }
+
+  @Override
+  public List<UserJson> addOtherPeople(int count) {
+    final List<UserJson> result = new ArrayList<>();
+    if (count > 0) {
+      for (int i = 0; i < count; i++) {
+        final UserJson newUser = createUser(randomUsername(), defaultPassword);
+        result.add(newUser);
+      }
+    }
+    return result;
+  }
 }

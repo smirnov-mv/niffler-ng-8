@@ -53,6 +53,7 @@ public record UserJson(
             new ArrayList<>(),
             new ArrayList<>(),
             new ArrayList<>(),
+            new ArrayList<>(),
             new ArrayList<>()
         )
     );
@@ -72,6 +73,7 @@ public record UserJson(
             password,
             testData.categories(),
             testData.spendings(),
+            testData.other(),
             testData.friends(),
             testData.outcomeInvitations(),
             testData.incomeInvitations()
@@ -79,7 +81,8 @@ public record UserJson(
     );
   }
 
-  public UserJson withUsers(List<UserJson> friends,
+  public UserJson withUsers(List<UserJson> other,
+                            List<UserJson> friends,
                             List<UserJson> outcomeInvitations,
                             List<UserJson> incomeInvitations) {
     return withTestData(
@@ -87,6 +90,7 @@ public record UserJson(
             testData.password(),
             testData.categories(),
             testData.spendings(),
+            other,
             friends,
             outcomeInvitations,
             incomeInvitations

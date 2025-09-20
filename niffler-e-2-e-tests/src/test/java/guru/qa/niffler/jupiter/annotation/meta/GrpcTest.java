@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
     AllureJunit5.class,
     UserExtension.class,
     CategoryExtension.class,
-    SpendingExtension.class,
+    SpendingExtension.class
 })
 public @interface GrpcTest {
 }
